@@ -7,6 +7,8 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 Movie.destroy_all
 require 'faker'
+require 'json'
+require 'open-uri'
 
 puts 'Creating 10 fake movies...'
 10.times do
@@ -18,3 +20,20 @@ puts 'Creating 10 fake movies...'
   movie.save
 end
 puts 'Finished!'
+
+url = "https://tmdb.lewagon.com/movie/top_rated"
+all_movies = URI.open(url).read
+movies = JSON.parse(all_movies)
+
+puts "#{movies["results"]}"
+
+movies["results"].take(20).each do |m|
+  movie = Movie.new(
+    title: m["original_title"].capitalize,
+    overview: m["overview"].capitalize,
+    poster_url: m["poster_path"],
+    rating: m["vote_average"]
+  )
+  movie.save
+end
+puts 'seed imdb done'
