@@ -1,5 +1,5 @@
 class BookmarksController < ApplicationController
-  before_action :set_bookmark, only: [:destroy]
+  before_action :set_bookmark, only: [:edit, :update, :destroy]
   before_action :set_list, only: [:new, :create]
 
   def new
@@ -14,6 +14,16 @@ class BookmarksController < ApplicationController
     else
       render :new
     end
+  end
+
+  def edit
+    @list = Bookmark.list
+  end
+
+  def update
+    @list = @bookmark.list
+    @bookmark.update(params[:comment])
+    @bookmark.save ? (redirect_to list_path(@list)) : (render :new)
   end
 
   def destroy

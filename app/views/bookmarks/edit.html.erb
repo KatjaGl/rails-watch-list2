@@ -1,0 +1,13 @@
+<div class= "container">
+  <div class = "row">
+    <div class = "col-sm-6 col-lg-8">
+      <%= simple_form_for{(@bookmark)} do |f| %>
+        <%= f.input :comment %>
+        <%= f.submit %>
+      <% end %>
+    </div>
+    <div class = "col-sm-6 col-lg-12 btn btn-primary">
+      <%= link_to "bach to list", list_path(@list) %>
+    </div>
+  </div>
+</div>
